@@ -147,7 +147,7 @@ func (cdp *Client) consumeMessages() {
 		}
 		err = json.Unmarshal(data, &id)
 		if err != nil {
-			fmt.Errorf("err during Unmarshal, data: %s", string(data))
+			fmt.Printf("err during Unmarshal, data: %s\n", string(data))
 		}
 		utils.E(err)
 
