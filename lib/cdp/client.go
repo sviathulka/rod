@@ -4,6 +4,7 @@ package cdp
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"sync"
 	"sync/atomic"
 
@@ -145,6 +146,9 @@ func (cdp *Client) consumeMessages() {
 			ID int `json:"id"`
 		}
 		err = json.Unmarshal(data, &id)
+		if err != nil {
+			fmt.Errorf("err during Unmarshal, data: %s", string(data))
+		}
 		utils.E(err)
 
 		if id.ID == 0 {
