@@ -136,12 +136,23 @@ func (cdp *Client) consumeMessages() {
 		data, err := cdp.ws.Read()
 		if err != nil {
 			cdp.pending.Range(func(_, val interface{}) bool {
-				val.(func(result))(result{err: err}) //nolint: forcetypeassert
+				val.(func(result))(result{err: err})
 				return true
 			})
 			return
 		}
 
+		if len(data) == 0 || data[0] != '{' {
+			cdp.logger.Println("non-json message:", string(data))
+
+			cdp.pending.Range(func(_, val interface{}) bool {
+				val.(func(result))(result{
+					err: fmt.Errorf("cdp closed: %s", string(data)),
+				})
+				return true
+			})
+			return
+		}
 		var id struct {
 			ID int `json:"id"`
 		}
