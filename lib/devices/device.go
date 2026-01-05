@@ -2,7 +2,7 @@
 package devices
 
 import (
-	"github.com/go-rod/rod/lib/proto"
+	"github.com/sviathulka/rod/lib/proto"
 	"github.com/ysmood/gson"
 )
 
